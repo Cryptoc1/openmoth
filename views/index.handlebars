@@ -1,0 +1,45 @@
+<header>
+    <a class="left" href="//twitter.com/openmoth">Twitter</a>
+    <a href="/">Open Moth</a>
+    <a class="right" href="//github.com/cryptoc1/openmoth">GitHub</a>
+</header>
+<div class="content">
+    <br>
+    <div>
+        <p>Open Moth is the twitter account that anyone can tweet from.</p>
+        <p>You can try it out yourself by entering a tweet below, and then check Open Moth's <a href="//twitter.com/openmoth">twitter</a> for your tweet.</p>
+    </div>
+    {{#if error}}
+        <div class="error">Error sending tweet, sorry :(
+            <br> Twitter said, "{{ error.message }}"
+        </div>
+        {{else if success}}
+        <div class="success">Congrats! Tweet has been sent.</div>
+    {{/if}}
+    <form action="/" method="post">
+        <br>
+        <textarea name="status" onkeydown="getCharacterCount(this.value)"> </textarea>
+        <div id="counter">0</div>
+        <br>
+        <button id="submit" type="submit">Tweet</button>
+    </form>
+    <br>
+    <br>
+</div>
+<footer>
+    Open Moth is a "social experiment" developed by <a href="//3bytes.xyz">Samuel Steele</a> in one free evening. Instead of doing his homework, he contemplated what would happen if anyone on the Internet could tweet from the same account.
+</footer>
+<script>
+    function getCharacterCount(text) {
+        var counter = document.getElementById('counter')
+        counter.textContent = text.length
+        if (text.length > 140) {
+            counter.style.color = "#F44336"
+            document.getElementById('submit').disabled = true
+        } else {
+            counter.style.color = "initial"
+            document.getElementById('submit').disabled = false
+
+        }
+    }
+</script>
