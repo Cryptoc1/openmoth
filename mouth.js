@@ -36,6 +36,7 @@ app.post('/', function(req, res) {
         var recaptchaURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress
         request.post(recaptchaURL, function(error, response, body) {
             console.log(body)
+            console.log(typeof body)
             if (body.success) {
                 twit.post('/statuses/update', {
                     status: req.body.status
