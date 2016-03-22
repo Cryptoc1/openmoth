@@ -34,7 +34,6 @@ app.get('/', function(req, res) {
 app.post('/', function(req, res) {
     if (req.body.status) {
         var recaptchaURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress
-        console.log(recaptchaURL)
         request.post(recaptchaURL, function(error, response, body) {
             if (body.success) {
                 twit.post('/statuses/update', {
@@ -43,7 +42,7 @@ app.post('/', function(req, res) {
                     if (err) {
                         res.render('index', {
                             success: false,
-                            error: err[0]
+                            error: err[0].message
                         })
                         console.log(err)
                     } else {
@@ -55,14 +54,14 @@ app.post('/', function(req, res) {
             } else {
                 res.render('index', {
                     success: false,
-                    error: "Internal Server Error"
+                    error: "Unable to verify reCaptcha"
                 })
             }
         })
     } else {
         res.render('index', {
             success: false,
-            error: "Internal Server Error"
+            error: "Must provide status content"
         })
     }
 })
