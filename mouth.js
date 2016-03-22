@@ -33,7 +33,11 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
     if (req.body.status) {
-        request.post("https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress, function(err, response, body) {
+        var recaptchaURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress
+        console.log(recaptchaURL)
+        request.post(recaptchaURL, function(err, response, body) {
+            console.log(response)
+            console.log(body)
             if (response.success) {
                 twit.post('/statuses/update', {
                     status: req.body.status
