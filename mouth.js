@@ -2,7 +2,8 @@ var express = require('express'),
     handlebars = require('express-handlebars'),
     bodyParser = require('body-parser'),
     request = require('request'),
-    Twitter = require('twitter')
+    Twitter = require('twitter'),
+    fs = require('fs')
 
 var app = express()
 
@@ -32,6 +33,7 @@ app.get('/', function(req, res) {
 })
 
 app.post('/', function(req, res) {
+    // This is a bloody fucking mess
     if (req.body.status) {
         var recaptchaURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress
         request.post(recaptchaURL, function(error, response, body) {
@@ -47,6 +49,7 @@ app.post('/', function(req, res) {
                         })
                         console.log(err)
                     } else {
+                        logRequest(tweet.id, req.connection.remoteAddress)
                         res.render('index', {
                             success: true
                         })
@@ -68,6 +71,27 @@ app.post('/', function(req, res) {
 })
 
 
+
+function logRequest(tweetID, IP) {
+    var str = Math.floor(new Date().getTime() / 1000) + ": [" + tweet.id + ", \"" + "AN IP ADDRESS" + "\"]"
+    fs.appendFile("tweets.log", str,  function(err) {
+        console.error(err)
+    })
+}
+
 var server = app.listen(process.env.PORT || 5000, function() {
     console.log("Server running at http://0.0.0.0:%d", server.address().port)
+    twit.stream('user', function(stream) {
+        stream.on('follow', function(follow) {
+            if (follow.source.screen_name.toLowerCase() != "openmoth") {
+                twit.post('/friendships/create', {
+                    screen_name: follow.source.screen_name,
+                    follow: true
+                }, function(err, res) {
+                    if (err) 
+                        console.error(err)
+                })
+            }
+        })
+    })
 })
