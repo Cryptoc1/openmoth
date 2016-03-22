@@ -1,38 +1,39 @@
 {
-    "name": "openmoth",
-    "version": "1.0.0",
-    "description": "a twitter account anyone can tweet from",
-    "main": "mouth.js",
-    "scripts": {
-        "test": "nodemon mouth.js",
-        "start": "node mouth.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/cryptoc1/openmoth.git"
-    },
-    "keywords": [
-        "twitter",
-        "tweet",
-        "openmoth",
-        "moth",
-        "mouth",
-        "open"
-    ],
-    "author": "Samuel Steele <steelesam72@gmail.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/cryptoc1/openmoth/issues"
-    },
-    "homepage": "https://github.com/cryptoc1/openmoth#readme",
-    "dependencies": {
-        "body-parser": "^1.15.0",
-        "express": "^4.13.4",
-        "express-handlebars": "^3.0.0",
-        "twitter": "^1.2.5"
-    },
-    "devDependencies": {
-        "dotenv": "^2.0.0",
-        "nodemon": "^1.9.1"
-    }
+  "name": "openmoth",
+  "version": "1.0.0",
+  "description": "a twitter account anyone can tweet from",
+  "main": "mouth.js",
+  "scripts": {
+    "test": "nodemon mouth.js",
+    "start": "node mouth.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cryptoc1/openmoth.git"
+  },
+  "keywords": [
+    "twitter",
+    "tweet",
+    "openmoth",
+    "moth",
+    "mouth",
+    "open"
+  ],
+  "author": "Samuel Steele <steelesam72@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cryptoc1/openmoth/issues"
+  },
+  "homepage": "https://github.com/cryptoc1/openmoth#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
+    "request": "^2.69.0",
+    "twitter": "^1.2.5"
+  },
+  "devDependencies": {
+    "dotenv": "^2.0.0",
+    "nodemon": "^1.9.1"
+  }
 }

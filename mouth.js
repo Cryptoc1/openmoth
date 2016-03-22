@@ -1,6 +1,7 @@
 var express = require('express'),
     handlebars = require('express-handlebars'),
     bodyParser = require('body-parser'),
+    request = require('request'),
     Twitter = require('twitter')
 
 var app = express()
@@ -32,18 +33,27 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
     if (req.body.status) {
-        twit.post('/statuses/update', {
-            status: req.body.status
-        }, function(err, tweet, response) {
-            if (err) {
-                res.render('index', {
-                    success: false,
-                    error: err[0]
+        request.post("https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress, function(err, response, body) {
+            if (response.success) {
+                twit.post('/statuses/update', {
+                    status: req.body.status
+                }, function(err, tweet, response) {
+                    if (err) {
+                        res.render('index', {
+                            success: false,
+                            error: err[0]
+                        })
+                        console.log(err)
+                    } else {
+                        res.render('index', {
+                            success: true
+                        })
+                    }
                 })
-                console.log(err)
             } else {
                 res.render('index', {
-                    success: true
+                    success: false,
+                    error: "Internal Server Error"
                 })
             }
         })
