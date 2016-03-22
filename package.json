@@ -4,7 +4,8 @@
     "description": "a twitter account anyone can tweet from",
     "main": "mouth.js",
     "scripts": {
-        "test": "nodemon mouth.js"
+        "test": "nodemon mouth.js",
+        "start": "node mouth.js"
     },
     "repository": {
         "type": "git",
