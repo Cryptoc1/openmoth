@@ -73,7 +73,7 @@ app.post('/', function(req, res) {
 
 
 function logRequest(tweetID, IP) {
-    var str = Math.floor(new Date().getTime() / 1000) + ": [" + tweet.id + ", \"" + "AN IP ADDRESS" + "\"]"
+    var str = Math.floor(new Date().getTime() / 1000) + ": [" + tweetID + ", \"" + "AN IP ADDRESS" + "\"]"
     fs.appendFile("tweets.log", str,  function(err) {
         console.error(err)
     })
@@ -88,7 +88,7 @@ var server = app.listen(process.env.PORT || 5000, function() {
                     screen_name: follow.source.screen_name,
                     follow: true
                 }, function(err, res) {
-                    if (err) 
+                    if (err)
                         console.error(err)
                 })
             }
