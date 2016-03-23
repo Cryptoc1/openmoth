@@ -35,33 +35,40 @@ app.get('/', function(req, res) {
 app.post('/', function(req, res) {
     // This is a bloody fucking mess
     if (req.body.status) {
-        var recaptchaURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress
-        request.post(recaptchaURL, function(error, response, body) {
-            body = JSON.parse(body)
-            if (body.success) {
-                twit.post('/statuses/update', {
-                    status: req.body.status
-                }, function(err, tweet, response) {
-                    if (err) {
-                        res.render('index', {
-                            success: false,
-                            error: err[0].message
-                        })
-                        console.log(err)
-                    } else {
-                        logRequest(tweet.id, req.connection.remoteAddress)
-                        res.render('index', {
-                            success: true
-                        })
-                    }
-                })
-            } else {
-                res.render('index', {
-                    success: false,
-                    error: "Unable to verify reCaptcha"
-                })
-            }
-        })
+        if (req.body.status.length > 140) {
+            res.render('index', {
+                status: false,
+                error: "Tweet must be less than 140 characters"
+            })
+        } else {
+            var recaptchaURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.RECAPTCHA_SECRET + "&response=" + req.body['g-recaptcha-response'] + "&remote=" + req.connection.remoteAddress
+            request.post(recaptchaURL, function(error, response, body) {
+                body = JSON.parse(body)
+                if (body.success) {
+                    twit.post('/statuses/update', {
+                        status: req.body.status
+                    }, function(err, tweet, response) {
+                        if (err) {
+                            res.render('index', {
+                                success: false,
+                                error: err[0].message
+                            })
+                            console.log(err)
+                        } else {
+                            logRequest(tweet.id, req.connection.remoteAddress)
+                            res.render('index', {
+                                success: true
+                            })
+                        }
+                    })
+                } else {
+                    res.render('index', {
+                        success: false,
+                        error: "Unable to verify reCaptcha"
+                    })
+                }
+            })
+        }
     } else {
         res.render('index', {
             success: false,
@@ -74,7 +81,7 @@ app.post('/', function(req, res) {
 
 function logRequest(tweetID, IP) {
     var str = Math.floor(new Date().getTime() / 1000) + ": [" + tweetID + ", \"" + "AN IP ADDRESS" + "\"]"
-    fs.appendFile("tweets.log", str,  function(err) {
+    fs.appendFile("tweets.log", str, function(err) {
         console.error(err)
     })
 }
