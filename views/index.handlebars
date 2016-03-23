@@ -18,7 +18,7 @@
     {{/if}}
     <form action="/" method="post">
         <br>
-        <textarea name="status" onkeydown="getCharacterCount(this.value)"> </textarea>
+        <textarea name="status" onkeyup="getCharacterCount(this.value)"> </textarea>
         <div id="counter">0</div>
         <div class="g-recaptcha" data-sitekey="6LfgghsTAAAAANSGJvvn62WhBy5jo0WcfyuhhmlZ"></div>
         <button id="submit" type="submit">Tweet</button>
