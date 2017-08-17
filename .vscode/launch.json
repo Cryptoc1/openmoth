@@ -7,7 +7,7 @@
           "request": "launch",
           "program": "${workspaceRoot}/dist/server.js",
           "stopOnEntry": false,
-          "args": [],
+          "args": ["--debug"],
           "cwd": "${workspaceRoot}",
           "preLaunchTask": "build",
           "runtimeExecutable": null,

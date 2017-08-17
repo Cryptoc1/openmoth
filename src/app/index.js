@@ -1,7 +1,8 @@
 import bodyParser from 'body-parser'
+import { error } from './middleware'
 import express from 'express'
 import handlebars from 'express-handlebars'
-// import routes from './routes'
+import routes from './routes'
 import shrink from 'shrink-ray'
 
 const app = express()
@@ -10,6 +11,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
 }))
+app.use(error)
 app.use(shrink())
 
 app.use(express.static('./src/app/public'))
@@ -21,6 +23,17 @@ app.engine('handlebars', handlebars({
 }))
 app.set('view engine', 'handlebars')
 
-app.get('/', (req, res) => res.render('index'))
+app.use((err, req, res, next) => {
+  if (err.code !== undefined) res.error(err.code)
+  else res.error(500)
+})
+
+app.use((req, res, next) => {
+  console.log(`Hit: ${req.originalUrl}`)
+  return next()
+})
+
+// import routes
+app.use(routes)
 
 export default app
