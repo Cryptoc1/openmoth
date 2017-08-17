@@ -1,9 +1,11 @@
 import bodyParser from 'body-parser'
-import { error } from './middleware'
+import { DEBUG } from '../constants'
+import { dingo, error } from './middleware'
 import express from 'express'
 import handlebars from 'express-handlebars'
 import routes from './routes'
 import shrink from 'shrink-ray'
+// import { twitterService } from './services'
 
 const app = express()
 
@@ -11,6 +13,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
 }))
+app.use(dingo)
 app.use(error)
 app.use(shrink())
 
@@ -28,12 +31,19 @@ app.use((err, req, res, next) => {
   else res.error(500)
 })
 
-app.use((req, res, next) => {
-  console.log(`Hit: ${req.originalUrl}`)
-  return next()
-})
+// log requests in debug mode
+if (DEBUG) {
+  app.use((req, res, next) => {
+    console.log(`Hit: ${req.originalUrl}`)
+    return next()
+  })
+}
 
 // import routes
 app.use(routes)
+
+/* twitterService.stream('user', stream => {
+  stream.on('follow', )
+}) */
 
 export default app

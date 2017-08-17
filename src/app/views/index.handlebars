@@ -7,39 +7,28 @@
     <br>
     <div>
         <p>Open Moth is the twitter account that anyone can tweet from.</p>
-        <p>You can try it out yourself by entering a tweet below, and then check Open Moth's <a href="//twitter.com/openmoth">twitter</a> for your tweet.</p>
+        <p>You can try it out yourself by entering a tweet below, and then check Open Moth's <a href="//twitter.com/openmoth">twitter</a>            for your tweet.</p>
     </div>
     {{#if error}}
-        <div class="error">Error sending tweet, sorry :(
-            <br> Twitter said, "{{ error }}"
-        </div>
-        {{else if success}}
-        <div class="success">Congrats! Tweet has been sent.</div>
+    <div class="error">Error sending tweet, sorry :(
+        <br>{{ error }}
+    </div>
+    {{else if success}}
+    <div class="success">Congrats! Tweet has been sent.</div>
     {{/if}}
     <form action="/" method="post">
         <br>
-        <textarea name="status" onkeyup="getCharacterCount(this.value)"></textarea>
+        <textarea id="status" name="status"></textarea>
         <div id="counter">0</div>
         <div class="g-recaptcha" data-sitekey="6LfgghsTAAAAANSGJvvn62WhBy5jo0WcfyuhhmlZ"></div>
         <button id="submit" type="submit">Tweet</button>
     </form>
     <br>
     <div>
-        <p> Open Moth is a "social experiment" developed by <a href="//3bytes.xyz">Samuel Steele</a> in one free evening. Instead of doing his homework, he contemplated what would happen if anyone on the Internet could tweet from the same account.
+        <p> Open Moth is a "social experiment" developed by <a href="//3bytes.xyz">Samuel Steele</a> in one free evening. Instead
+            of doing his homework, he contemplated what would happen if anyone on the Internet could tweet from the same
+            account.
         </p>
     </div>
 </div>
-<script>
-    function getCharacterCount(text) {
-        var counter = document.getElementById('counter')
-        counter.textContent = text.length
-        if (text.length > 140) {
-            counter.style.color = "#F44336"
-            document.getElementById('submit').disabled = true
-        } else {
-            counter.style.color = "initial"
-            document.getElementById('submit').disabled = false
-
-        }
-    }
-</script>
+<script src="/index.js"></script>
